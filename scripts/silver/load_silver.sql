@@ -36,7 +36,7 @@ INSERT INTO silver.yellow_taxi (
   payment_type, fare_amount, extra, mta_tax, tip_amount, tolls_amount,
   improvement_surcharge, total_amount, congestion_surcharge, airport_fee
 )
-WITH dedup AS (
+WITH deduped AS (
 	SELECT
 		*,
 		ROW_NUMBER() OVER (PARTITION BY vendorid, tpep_pickup_datetime, tpep_dropoff_datetime, passenger_count,

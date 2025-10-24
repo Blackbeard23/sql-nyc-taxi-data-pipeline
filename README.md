@@ -33,4 +33,4 @@ Specifically, the project aims to:
 
 ---
 ## Project Architecture
-![pipeline architecture diagram](architecture_diagram.svg)
+![pipeline architecture diagram](./image/architecture_diagram.svg)

@@ -70,3 +70,8 @@ After insert, the procedure records in `meta.load_metadata`:
     - `load_timestamp` (current timestamp of ingestion)
 
 This design avoids timestamp drift, supports safe re-runs, and keeps a clear audit trail of every monthly file processed.
+
+---
+## Testing and Validation
+![metadata table test validation](/image/metadata_table_validation.png)
+The image above shows what the `meta.load_metadata` table query result when i try to load already loaded files. They were `skipped` and the `load_dropoff_datetime` column maintains the last succesful ingestion timestamp.

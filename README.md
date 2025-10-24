@@ -7,6 +7,7 @@ Quickly move to a section:
 - [Project Objective](#project-objective)
 - [Project Architecture](#project-architecture)
 - [Pipeline Flow and Logic](#pipeline-flow-and-logic)
+- [Testing & Validation](#testing-and-validation)
 
 
 ---

@@ -52,7 +52,7 @@ The metadata table (`meta.load_metadata`) was created to dynamically tracks:
 - `load_timestamp`: Timestamp of when the file was processed and ingested
 
 ### Incremental Load
-This part is the key highlight of the project data pipeline. It ensures that no already processed or ingested file gets re-run by using a metadata table to dynamically track file processing and ingestion — in short, it makes the pipeline **idempotent** (the pipeline produces the same result no matter how many times it’s run). Incremental ingestion is handled by a stored procedure that:
+This part is the key highlight of the project data pipeline. It ensures that no already processed or ingested file gets re-run by using a metadata table to dynamically track file processing and ingestion, in short, it makes the pipeline **idempotent** (the pipeline produces the same result no matter how many times it’s run). Incremental ingestion is handled by a stored procedure that:
 1. **Parses period from the file name** (e.g., `2024-07`) and computes a month window
 `month_start = 2024-07-01 00:00:00`, `month_end = 2024-08-01 00:00:00`
 2. **Stages the file** into a temporary table shaped like the Bronze table. The temp table is truncated each run.
@@ -68,5 +68,5 @@ After insert, the procedure records in `meta.load_metadata`:
     - `last_dropoff_datetime` (max within bronze layer after ingestion)
     - `status`
     - `load_timestamp` (current timestamp of ingestion)
-    
+
 This design avoids timestamp drift, supports safe re-runs, and keeps a clear audit trail of every monthly file processed.

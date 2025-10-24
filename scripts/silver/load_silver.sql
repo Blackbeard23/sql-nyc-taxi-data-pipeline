@@ -1,9 +1,3 @@
-SELECT *, count(*)
-FROM bronze.yellow_taxi_raw byt
-GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19 HAVING count(*) > 1
-ORDER BY count DESC
-LIMIT 10;
-
 INSERT INTO vendor (vendorid, vendor)
 SELECT
 	vendorid,
@@ -37,7 +31,7 @@ VALUES (0, 'Flex Fare trip'),
 
 
 INSERT INTO silver.yellow_taxi (
-  vendorid, tpep_pickup_datetime, tpep_dropoff_datetime, passenger_count,
+  vendorid, tpep_pickup_datetime, tpep_dropoff_datetime, minute_duration, passenger_count,
   trip_distance, ratecodeid, store_and_fwd_flag, pulocationid, dolocationid,
   payment_type, fare_amount, extra, mta_tax, tip_amount, tolls_amount,
   improvement_surcharge, total_amount, congestion_surcharge, airport_fee
@@ -56,9 +50,10 @@ SELECT
 	vendorid,
 	tpep_pickup_datetime,
 	tpep_dropoff_datetime,
+	CAST(EXTRACT(EPOCH FROM (tpep_dropoff_datetime - tpep_pickup_datetime)) / 60 AS integer) AS minute_duration,
 	passenger_count,
 	trip_distance,
-	CAST(ratecodeid AS integer) AS ratecodeid,
+	CAST(ratecodeid AS NUMERIC)::INTEGER AS ratecodeid,
 	store_and_fwd_flag,
 	pulocationid,
 	dolocationid,
@@ -77,5 +72,3 @@ WHERE row_dedup = 1
 	AND (tpep_pickup_datetime >= DATE '2024-01-01'
   AND tpep_pickup_datetime <  DATE '2025-01-01');
 
-
-SELECT * FROM silver.yellow_taxi yt 

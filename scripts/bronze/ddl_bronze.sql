@@ -5,9 +5,9 @@ CREATE TABLE bronze.yellow_taxi_raw (
 	vendorid integer,
 	tpep_pickup_datetime timestamp,
 	tpep_dropoff_datetime timestamp,
-	passenger_count integer,
+	passenger_count text,
 	trip_distance NUMERIC,
-	ratecodeid integer,
+	ratecodeid text,
 	store_and_fwd_flag text,
 	pulocationid integer,
 	dolocationid integer,
@@ -20,15 +20,14 @@ CREATE TABLE bronze.yellow_taxi_raw (
 	improvement_surcharge NUMERIC,
 	total_amount NUMERIC,
 	congestion_surcharge NUMERIC,
-	airport_fee NUMERIC,
-	PRIMARY KEY (tpep_pickup_datetime, tpep_dropoff_datetime, pulocationid, dolocationid)
+	airport_fee NUMERIC
 );
 
 
 CREATE SCHEMA IF NOT EXISTS meta;
 
-DROP TYPE IF EXISTS meta.status_enum;
-CREATE TYPE meta.status_enum AS ENUM ('success','failed');
+DROP TYPE IF EXISTS meta.status_enum CASCADE;
+CREATE TYPE meta.status_enum AS ENUM ('success','failed', 'skipped');
 
 DROP TABLE IF EXISTS meta.load_metadata;
 CREATE TABLE meta.load_metadata (

@@ -72,6 +72,9 @@ After insert, the procedure records in `meta.load_metadata`:
 
 This design avoids timestamp drift, supports safe re-runs, and keeps a clear audit trail of every monthly file processed.
 
+### Full Load
+The full load process was performed after the Bronze layer was completely populated. After loading all records into the Bronze layer, duplicates were identified and removed before transferring the data into the **Silver layer**. This ensures that the Silver layer always holds the most accurate and deduplicated version of the dataset ready for standardization, transformation, and partitioning for analytics use.
+
 ---
 ## Testing and Validation
 ![metadata table test validation](/image/metadata_table_validation.png)

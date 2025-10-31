@@ -27,6 +27,7 @@ The pipeline demonstrates both **full refresh** and **incremental loading** stra
 Specifically, the project aims to:
 - Implement an **automated ingestion process** that loads monthly trip data incrementally into the Raw (Bronze) layer and full load into the Transformed (Silver) layer.
 - Build a **metadata table** to track load history and prevent duplicate inserts.
+- Alongside the metadata tracking table, implement a lightweight **logging table** (`meta.invalid_records`) to capture all rejected or out-of-range rows.
 - Transform raw data into standardized, cleaned formats in the **Silver** layer using partitioned tables.
 - Aggregate and summarize data in the **Gold** layer for analytical and reporting purposes.
 - Deliver comprehensive **SQL scripts** and a **pipeline architecture diagram** demonstrating data flow across all layers.

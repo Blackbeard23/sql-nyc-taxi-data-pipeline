@@ -40,8 +40,6 @@ CREATE TABLE meta.load_metadata (
 
 DROP TABLE IF EXISTS meta.invalid_records;
 CREATE TABLE meta.invalid_records (LIKE bronze.yellow_taxi_raw,
-	PRIMARY KEY (vendorid, tpep_pickup_datetime, tpep_dropoff_datetime, passenger_count,
-							  trip_distance, ratecodeid, store_and_fwd_flag, pulocationid, dolocationid,
-							  payment_type, fare_amount, extra, mta_tax, tip_amount, tolls_amount,
-							  improvement_surcharge, total_amount, congestion_surcharge, airport_fee)
+	PRIMARY KEY (vendorid, tpep_pickup_datetime, tpep_dropoff_datetime,
+				trip_distance, pulocationid, dolocationid, total_amount)
 );

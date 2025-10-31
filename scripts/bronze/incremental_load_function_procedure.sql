@@ -52,6 +52,25 @@ BEGIN
   FROM stage_yellow
   WHERE tpep_dropoff_datetime >= month_start AND tpep_dropoff_datetime < month_end;
 
+  -- out of range records into meta.invalid_records
+  INSERT INTO meta.invalid_records (
+    vendorid, tpep_pickup_datetime, tpep_dropoff_datetime, passenger_count,
+    trip_distance, ratecodeid, store_and_fwd_flag, pulocationid, dolocationid,
+    payment_type, fare_amount, extra, mta_tax, tip_amount, tolls_amount,
+    improvement_surcharge, total_amount, congestion_surcharge, airport_fee
+  )
+  SELECT
+    vendorid, tpep_pickup_datetime, tpep_dropoff_datetime, passenger_count,
+    trip_distance, ratecodeid, store_and_fwd_flag, pulocationid, dolocationid,
+    payment_type, fare_amount, extra, mta_tax, tip_amount, tolls_amount,
+    improvement_surcharge, total_amount, congestion_surcharge, airport_fee
+  FROM stage_yellow
+  WHERE NOT tpep_dropoff_datetime >= month_start AND tpep_dropoff_datetime < month_end
+  ON CONFLICT(vendorid, tpep_pickup_datetime, tpep_dropoff_datetime, passenger_count,
+							  trip_distance, ratecodeid, store_and_fwd_flag, pulocationid, dolocationid,
+							  payment_type, fare_amount, extra, mta_tax, tip_amount, tolls_amount,
+							  improvement_surcharge, total_amount, congestion_surcharge, airport_fee) DO NOTHING;
+
   SELECT MAX(tpep_dropoff_datetime) INTO v_last_in FROM bronze.yellow_taxi_raw;
 
   -- 5) log success in metadata
